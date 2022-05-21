@@ -2,7 +2,9 @@
 let dau = 0;
 let cuoi = 90;
 let event;
-let batsukien = 0;
+let i = 0;
+let point;
+let stop = 0;
 function Runfacke() {
   let dangnhay = 0;
   setInterval(function () {
@@ -11,21 +13,30 @@ function Runfacke() {
     if (dau >= 35) dau -= 0.3;
     if (cuoi == 0) cuoi = dau + 35;
     if (dangnhay != 0) dangnhay--;
+    else {
+      document.getElementById("nhanvat1").style.display = "block";
+      document.getElementById("nhanvat2").style.display = "none";
+    }
     if (evntrun() == -1) {
-      dangnhay = 40;
+      document.getElementById("nhanvat1").style.display = "none";
+      document.getElementById("nhanvat2").style.display = "block";
+      dangnhay = 25;
       i = 0;
       console.log(dangnhay, " ", dau, " ", cuoi);
     } else {
       if (dangnhay == 0 && dau >= cuoi && cuoi >= dau - 0.7) {
         Killer();
+        stop = 1;
       }
     }
+    document.getElementsByClassName("point").innerHTML = check_point(stop);
   }, 50);
 }
 
 function Run() {
   document.getElementById("start").style.display = "none";
-  const elem1 = document.getElementById("nhanvat");
+  const elem1 = document.getElementById("nhanvat1");
+  const elem4 = document.getElementById("nhanvat2");
   let idrun;
   const elem2 = document.getElementById("vatchanden");
   const elem3 = document.getElementById("duong");
@@ -34,6 +45,9 @@ function Run() {
   idrun = setInterval(function () {
     if (dau < 35) {
       elem1.style.left = dau + "%";
+    }
+    if (dau < 35) {
+      elem4.style.left = dau + "%";
     }
     if (cuoi > 0) {
       elem2.style.left = cuoi + "%";
@@ -63,12 +77,12 @@ function restart() {
 // let dino = document.getElementById("nhanvat1");
 // console.log(dino);
 function jump() {
-  if (document.getElementById("nhanvat").classList.contains("jump") != true) {
-    document.getElementById("nhanvat").classList.add("jump");
+  if (document.getElementById("nhanvat2").classList.contains("jump") != true) {
+    document.getElementById("nhanvat2").classList.add("jump");
     console.log("iadiyai");
     setTimeout(function () {
-      document.getElementById("nhanvat").classList.remove("jump");
-    }, 1500);
+      document.getElementById("nhanvat2").classList.remove("jump");
+    }, 1900);
   }
 }
 
@@ -76,20 +90,22 @@ function evntrun() {
   document.addEventListener("keydown", function (event) {
     if (event.keyCode == 32) {
       jump();
-      batsukien = -1;
+      i = -1;
     }
   });
-  console.log(batsukien);
+  console.log(i);
   return i;
-}
-
-function Stop(x, y, a, b) {
-  if (x == a && y == b) {
-    Killer();
-  }
 }
 
 function Killer() {
   document.getElementById("kill").style.display = "block";
   document.getElementById("restart").style.display = "block";
+}
+function check_point(x) {
+  if (x == 0) {
+    point++;
+    return point;
+  } else {
+    return point;
+  }
 }
